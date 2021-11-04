@@ -167,7 +167,7 @@ public class Main {
 		return presentStudentsList;
 	}
 
-	private static List<Student> createStudents() {
+	static List<Student> createStudents() {
 		String[] names = {
 				"Celsus",
 				"Callie",
