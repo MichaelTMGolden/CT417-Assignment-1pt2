@@ -42,6 +42,6 @@ dependencies {
 	
 	implementation 'joda-time:joda-time:2.9.4'
         
-    implementation 'com.github.MichaelTMGolden:CT417-Assignment-1:1.0.5'
+    implementation 'com.github.MichaelTMGolden:CT417-Assignment-1:1.1'
     
 }
