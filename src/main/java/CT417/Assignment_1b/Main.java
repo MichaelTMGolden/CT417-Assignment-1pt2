@@ -19,78 +19,52 @@ public class Main {
 		List<Module> modulesList = createModule(studentsList);
 		List<Course> courseList = createCourse(studentsList, modulesList);
 		
-		ListIterator<Student> studentsListIterator = studentsList.listIterator();
-		while(studentsListIterator.hasNext()){
-			Student student = studentsListIterator.next();
-			printStudents(student);
-		}
-		
-		ListIterator<Module> moduleListIterator = modulesList.listIterator();
-		while(moduleListIterator.hasNext()){
-			Module module = moduleListIterator.next();
-			printModule(module);
-		}
-		
 		ListIterator<Course> courseListIterator = courseList.listIterator();
 		while(courseListIterator.hasNext()){
 			Course course = courseListIterator.next();
 			printCourse(course);
 		}
+		
+		ListIterator<Student> studentsListIterator = studentsList.listIterator();
+		while(studentsListIterator.hasNext()){
+			Student student = studentsListIterator.next();
+			printStudents(student);
+		}
 
 	}
 	
 	private static void printCourse(Course course) {
-		System.out.println(
-				 course.getCourseName()
-				+ " "
-				+ course.getStudentsNames()
-				+ " "
-				+ course.getModulesNames()
-				+ " "
-				+ course.getStartDate()
-				+ " "
-				+ course.getEndDate()
-				+ "\n"
-				);
+		List<Module> modules =  course.getModulesNames();
+		
+		List<String> modulesNames = new ArrayList<String>();
+		
+		for (int i = 0; i < modules.size(); i++) {
+			modulesNames.add(modules.get(i).getName());
+		}
+		
+		String coursesAndModule = "Courses and Modules:" + course.getCourseName() + " " + modulesNames+ "\n";
+		
+		System.out.println(coursesAndModule);
 	}
 
-	private static void printModule(Module module) {
+	static void printStudents(Student student) {
 		System.out.println(
-				 module.getName()
-				+ " "
-				+ module.getId()
-				+ " "
-				+ module.getStudentsNames()
-				+ " "
-				+ module.getCourses()
-				+ "\n"
-				);
-	}
-
-	
-
-	private static void printStudents(Student student) {
-		System.out.println(
-				student.getName() 
-				+ " "
-				+ student.getAge()
-				+ " "
-				+ student.getDob()
-				+ " "
-				+ student.getId()
-				+ " "
+				"Name: "
+				+student.getName() 
+				+ "\nUsername: "
 				+ student.getUsername()
-				+ " "
+				+ "\nCourse: "
 				+ student.getCourses()
-				+ " "
+				+ "\nModules: "
 				+ student.getModules()
 				+ "\n"
 				);
 	}
 
 	private static List<Course> createCourse(List<Student> studentsList, List<Module> modulesList) {
-		List<Course> courseList = new ArrayList<Course>();
 		
+		List<Course> courseList = new ArrayList<Course>();
+
 		Course course1 = new Course("Computing Technology" , getCourseStudentList(studentsList, "Computing Technology"), getCourseModuleList(modulesList, "CT"), parseDate("01/09/21"), parseDate("30/05/22"));
 		Course course2 = new Course("Software Engineering", getCourseStudentList(studentsList, "Software Engineering"), getCourseModuleList(modulesList, "SE"), parseDate("03/09/21"), parseDate("21/05/22"));
 		Course course3 = new Course("Technology Engineering", getCourseStudentList(studentsList, "Technology Engineering"), getCourseModuleList(modulesList, "TE"), parseDate("05/09/21"), parseDate("27/05/22"));
@@ -102,8 +76,10 @@ public class Main {
 		return courseList;
 	}
 
-	private static List<Student> getCourseStudentList(List<Student> studentsList, String string) {
+	static List<Student> getCourseStudentList(List<Student> studentsList, String string) {
+		
 		List<Student> studentsInCourseList = new ArrayList<Student>();
+		
 		for (int i = 0; i < studentsList.size(); i++) {
 			Student student = studentsList.get(i);
 			if (student.getCourses() == string) {
@@ -117,11 +93,14 @@ public class Main {
 	}
 
 	private static List<Module> getCourseModuleList(List<Module> modulesList, String courseId) {
+		
 		List<Module> courseModulesList = new ArrayList<Module>();
+		
 		for (int i = 0; i < modulesList.size(); i++) {
 			Module module = modulesList.get(i);
-			List<String> courses = module.getCourses();
-			if(courses.contains(courseId)) {
+			String[] arr = module.id.split("\\d+", 2);
+			String code = arr[0].trim();
+			if(code.equals(courseId)) {
 				courseModulesList.add(module);
 			}
 			else {
@@ -132,6 +111,7 @@ public class Main {
 	}
 
 	private static List<Module> createModule(List<Student> studentsList) {
+		
 		List<Module> modulesList = new ArrayList<Module>();
 		
 		List<String> courseList = List.of("Computing Technology", "Software Engineering", "Technology Engineering");
@@ -168,40 +148,6 @@ public class Main {
 	}
 
 	static List<Student> createStudents() {
-		String[] names = {
-				"Celsus",
-				"Callie",
-				"Makarios",
-				"Dorotheus",
-				"Haraldr"
-				};
-		
-		
-		DateTime[] dobs = {
-				parseDate("12/03/1998"), 
-				parseDate("02/04/1997"),
-				parseDate("10/11/1996"),
-				parseDate("23/05/1998"),
-				parseDate("30/04/1997")
-				};
-		
-		String[] ids = {
-				"535659",
-				"342354",
-				"183367",
-				"250084",
-				"717640"
-				};
-		
-		String[] courses = {
-			"Computing Technology",
-			"Computing Technology",
-			"Computing Technology",
-			"Software Engineering",
-			"Technology Engineering"
-		};
-		
-		List<List<String>> listOfModuleLists = new ArrayList<List<String>>();
 		
 		List<String> modules1 = List.of("CT412", "CT413", "CT432", "CT4412", "CT512");
 		List<String> modules2 = List.of("CT412", "CT413", "CT432", "CT4412", "CT512");
@@ -209,19 +155,20 @@ public class Main {
 		List<String> modules4 = List.of("SE3432", "SE905", "SE546", "CT4412", "CT512");
 		List<String> modules5 = List.of("TE3572", "TE201", "TE32", "CT4412", "CT512");
 		
-		listOfModuleLists.add(modules1);
-		listOfModuleLists.add(modules2);
-		listOfModuleLists.add(modules3);
-		listOfModuleLists.add(modules4);
-		listOfModuleLists.add(modules5);
-	
-		
 		List<Student> studentsList = new ArrayList<Student>();
 		
-		for (int i = 0 ; i < 5; i++) {
-			Student student = new Student(names[i], dobs[i], ids[i], courses[i], listOfModuleLists.get(i));
-			studentsList.add(student);
-		}
+		Student student1 = new Student("Celsus", parseDate("12/03/1998"), "535659", "Computing Technology", modules1);
+		Student student2 = new Student("Callie", parseDate("02/04/1997"), "342354", "Computing Technology", modules2);
+		Student student3 = new Student("Makarios", parseDate("10/11/1996"), "183367", "Computing Technology", modules3);
+		Student student4 = new Student("Dorotheus", parseDate("23/05/1998"), "250084", "Software Engineering", modules4);
+		Student student5 = new Student("Haraldr", parseDate("30/04/1997"), "717640", "Technology Engineering", modules5);
+
+		studentsList.add(student1);
+		studentsList.add(student2);
+		studentsList.add(student3);
+		studentsList.add(student4);
+		studentsList.add(student5);
+		
 		return studentsList;
 	}
 	
